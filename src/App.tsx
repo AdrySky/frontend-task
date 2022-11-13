@@ -1,4 +1,5 @@
 import './App.css';
+import EventListing from './components/EventListing';
 
 function App() {
   return (
@@ -6,6 +7,7 @@ function App() {
       <header className="App-header">
         <h2 className='App-title'>Event listing</h2>
       </header>
+      <EventListing />
     </div>
   );
 }
