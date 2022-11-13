@@ -11,7 +11,7 @@ function EventListing() {
     const [selectedMonth, setSelectedMonth] = useState<string>("");
     const [selectedCity, setSelectedCity] = useState<string>("");
     const [selectedFav, setSelectedFav] = useState<boolean>(false);
-    const initialFavImg = JSON.parse(localStorage.getItem('favs') || '{}')
+    const initialFavImg = JSON.parse(localStorage.getItem('favs') || '[]')
     const [favouriteImg, setFavouriteImg] = useState<any[]>(initialFavImg);
 
     const convertDateToMonthName = (d:any) => {
