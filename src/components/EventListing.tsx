@@ -1,5 +1,8 @@
 import {useEffect, useState} from "react";
 import axios from "axios";
+import { ReactComponent as NotFavourite } from "../not-favourite.svg";
+import { ReactComponent as Favourited } from "../favourite.svg";
+
 function EventListing() {
     const [eventData, setEventData] = useState<any[]>([]);
     const [filterEvent, setFilterEvent] = useState<any[]>([]);
@@ -7,6 +10,8 @@ function EventListing() {
     const [monthArr, setMonthArr] = useState<any[]>([]);
     const [selectedMonth, setSelectedMonth] = useState<string>("");
     const [selectedCity, setSelectedCity] = useState<string>("");
+    const [favouriteImg, setFavouriteImg] = useState<any[]>([]);
+
     const convertDateToMonthName = (d) => {
         let date = d.split(".")
         let newDate = new Date(date[2], date[1] , date[0])
@@ -63,6 +68,17 @@ function EventListing() {
         setSelectedMonth(val);
     };
 
+    const handleImageChange = (id,i) => {
+        let newFavouriteImg = [...favouriteImg];
+        if(newFavouriteImg.includes(id)){
+            let index = newFavouriteImg.indexOf(id)
+            newFavouriteImg[index] = "";
+        } else {
+            newFavouriteImg[i] = id;
+        }
+        setFavouriteImg(newFavouriteImg);
+    }
+
     const filterByCity = (event) => {
 
         // Avoid filter for null value
@@ -118,6 +134,9 @@ function EventListing() {
                   <li className="item" key={post.id}>
                       <div className="image" style={{ backgroundImage: `url(${post.image})` }} onClick={()=>handleImageChange(post.id,i)}>
                               <p className="day">{post.date.split(".")[0]}</p>
+                              <div className="favourite" >
+                                {favouriteImg.includes(post.id) ? <Favourited /> : <NotFavourite />}
+                              </div>
                           <h4 className="description">{post.name}</h4>
                       </div>
                   </li>
