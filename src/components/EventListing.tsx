@@ -160,7 +160,7 @@ function EventListing() {
                       <div className="image" style={{ backgroundImage: `url(${post.image})` }} onClick={()=>handleImageChange(post.id,i)}>
                               <p className="day">{post.date.split(".")[0]}</p>
                               <div className="favourite" >
-                                {favouriteImg.includes(post.id) ? <Favourited /> : <NotFavourite />}
+                                {/* {favouriteImg.includes(post.id) ? <Favourited /> : <NotFavourite />} */}
                               </div>
                           <h4 className="description">{post.name}</h4>
                       </div>
