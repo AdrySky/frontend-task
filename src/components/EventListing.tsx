@@ -10,6 +10,7 @@ function EventListing() {
     const [monthArr, setMonthArr] = useState<any[]>([]);
     const [selectedMonth, setSelectedMonth] = useState<string>("");
     const [selectedCity, setSelectedCity] = useState<string>("");
+    const [selectedFav, setSelectedFav] = useState<boolean>(false);
     const [favouriteImg, setFavouriteImg] = useState<any[]>(JSON.parse(localStorage.getItem('favs')));
 
     const convertDateToMonthName = (d) => {
@@ -68,6 +69,12 @@ function EventListing() {
         setSelectedMonth(val);
     };
 
+    // Toggle selectedFav state
+    const handleFavChange = ( event : any) => {
+        let val = event.target.checked;
+        setSelectedFav(val);
+    };
+
     const handleImageChange = (id,i) => {
         let newFavouriteImg = [...favouriteImg];
         if(newFavouriteImg.includes(id)){
@@ -107,13 +114,26 @@ function EventListing() {
         return filteredEventByMonth
     }
 
+    const filterByFav = (event) => {
+
+        // Avoid filter for null value
+        if (!selectedFav) {
+            return event;
+        }
+        let filteredEventByFav = event.filter((e)=> {
+            return favouriteImg.includes(e.id)
+        });
+        return filteredEventByFav;
+    }
+
     useEffect(()=> {
         if(filterEvent != null) {
             let filteredData = filterByCity(eventData);
             filteredData = filterByMonth(filteredData);
+            filteredData = filterByFav(filteredData);
             setFilterEvent(filteredData);
         }
-    },[selectedCity,selectedMonth])
+    },[selectedCity,selectedMonth, selectedFav])
 
   return (
       <div>
@@ -130,6 +150,9 @@ function EventListing() {
                       return (<option key={option} value={option}>{option}</option>)
                   })}
               </select>
+              <label className="drop-title">Favourite: </label>
+              <input id="fav" type="checkbox" value="Fav" onChange={(e) => handleFavChange(e)}/>
+          </div>
           <ul className="list">
               {filterEvent.map((post,i) => (
                   <li className="item" key={post.id}>

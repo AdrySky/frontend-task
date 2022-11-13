@@ -93,6 +93,14 @@ select {
   border-radius: 5px;
   color: #ffffff;
 }
+
+.item .favourite {
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  pointer-events: auto;
+}
+
 .item .description {
   position:absolute;
   color: #ffffff;
