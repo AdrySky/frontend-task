@@ -19,7 +19,7 @@ jobs:
       - run: npm run build
       - run: npm test
       - name: Deploy
-        uses: AdrySky/frontend-task-xsolla@v1
+        uses: AdrySky/frontend-task-xsolla
         with: 
           target-branch: gh-pages
           build-dir: build
