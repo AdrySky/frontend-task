@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  built-test-deploy:
+  built-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -14,12 +14,11 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v1
         with:
-          node-version: "10.x"
+          node-version: "14.18.1"
       - run: npm install
       - run: npm run build
-      - run: npm test
       - name: Deploy
-        uses: crazy-max/ghaction-github-pages@v1
+        uses: AdrySky/frontend-task-xsolla@v0.1
         with: 
           target-branch: gh-pages
           build-dir: build
