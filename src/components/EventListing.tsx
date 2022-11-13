@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 function EventListing() {
     const [eventData, setEventData] = useState<any[]>([]);
+    const [filterEvent, setFilterEvent] = useState<any[]>([]);
     const [cityArr, setCityArr] = useState<any[]>([]);
     const [monthArr, setMonthArr] = useState<any[]>([]);
     const [selectedMonth, setSelectedMonth] = useState<string>("");
