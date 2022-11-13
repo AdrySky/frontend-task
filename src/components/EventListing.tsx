@@ -11,9 +11,10 @@ function EventListing() {
     const [selectedMonth, setSelectedMonth] = useState<string>("");
     const [selectedCity, setSelectedCity] = useState<string>("");
     const [selectedFav, setSelectedFav] = useState<boolean>(false);
-    const [favouriteImg, setFavouriteImg] = useState<any[]>(JSON.parse(localStorage.getItem('favs')));
+    const initialFavImg = JSON.parse(localStorage.getItem('favs') || '{}')
+    const [favouriteImg, setFavouriteImg] = useState<any[]>(initialFavImg);
 
-    const convertDateToMonthName = (d) => {
+    const convertDateToMonthName = (d:any) => {
         let date = d.split(".")
         let newDate = new Date(date[2], date[1] , date[0])
         newDate.setMonth(newDate.getMonth() - 1);
@@ -21,16 +22,16 @@ function EventListing() {
         return monthName;
     }
 
-    const convertToMonthName = (arr) => {
+    const convertToMonthName = (arr:any) => {
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        let resultArray = [];
-        let monthArr = []
-        arr.map((d)=> {
+        let resultArray: string[] = [];
+        let monthArr: string[] = []
+        arr.map((d: any)=> {
             let monthName = convertDateToMonthName(d);
             monthArr.push(monthName);
         })
 
-        let um = monthArr.filter((val,id,array) => array.indexOf(val) == id);
+        let um = monthArr.filter((val,id,array) => array.indexOf(val) === id);
         
         months.forEach(month => {
             if (um.includes(month)) {
@@ -48,7 +49,7 @@ function EventListing() {
                 setFilterEvent(response.data);
                 const citys = response.data.map((event:any) => { return event.city });
                 const months = response.data.map((event:any) => { return event.date });
-                const uniqueCity = citys.filter((val,id,array) => array.indexOf(val) == id);
+                const uniqueCity = citys.filter((val: any,id: any,array: string | any[]) => array.indexOf(val) === id);
                 let m = convertToMonthName(months);
                 uniqueCity.unshift("")
                 m.unshift("")
@@ -75,7 +76,7 @@ function EventListing() {
         setSelectedFav(val);
     };
 
-    const handleImageChange = (id,i) => {
+    const handleImageChange = (id: any,i: number) => {
         let newFavouriteImg = [...favouriteImg];
         if(newFavouriteImg.includes(id)){
             let index = newFavouriteImg.indexOf(id)
@@ -87,34 +88,34 @@ function EventListing() {
         localStorage.setItem('favs', JSON.stringify(newFavouriteImg))
     }
 
-    const filterByCity = (event) => {
+    const filterByCity = (event: any[]) => {
 
         // Avoid filter for null value
-        if (!selectedCity || selectedCity == "") {
+        if (!selectedCity || selectedCity === "") {
             return event;
           }
         
         let filteredEventByCity = event.filter((e)=> {
-            return e.city == selectedCity
+            return e.city === selectedCity
         });
         return filteredEventByCity
     }
 
-    const filterByMonth = (event) => {
+    const filterByMonth = (event: any[]) => {
 
         // Avoid filter for null value
-        if (!selectedMonth || selectedMonth == "") {
+        if (!selectedMonth || selectedMonth === "") {
             return event;
         }
 
         let filteredEventByMonth = event.filter((e)=> {
             let m = convertDateToMonthName(e.date)
-            return m == selectedMonth
+            return m === selectedMonth
         });
         return filteredEventByMonth
     }
 
-    const filterByFav = (event) => {
+    const filterByFav = (event: any[]) => {
 
         // Avoid filter for null value
         if (!selectedFav) {
