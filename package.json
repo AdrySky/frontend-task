@@ -2,6 +2,7 @@
   "name": "adry-frontend-test-xsolla",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "homepage": "https://AdrySky.github.io/frontend-task-xsolla",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
