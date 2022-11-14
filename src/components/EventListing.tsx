@@ -22,41 +22,46 @@ function EventListing() {
         return monthName;
     }
 
-    const convertToMonthName = (arr:any) => {
+    const getMonthsByDate = (dateList:any) => {
         const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-        let resultArray: string[] = [];
-        let monthArr: string[] = []
-        arr.map((d: any)=> {
+        let monthInOrderList: string[] = [];
+        let monthList: string[] = [];
+        dateList.map((d: any)=> {
             let monthName = convertDateToMonthName(d);
-            monthArr.push(monthName);
+            monthList.push(monthName);
         })
 
-        let um = monthArr.filter((val,id,array) => array.indexOf(val) === id);
+        let um = monthList.filter((val,id,array) => array.indexOf(val) === id);
         
         months.forEach(month => {
             if (um.includes(month)) {
-                resultArray.push(month);
+                monthInOrderList.push(month);
             }
         })
     
-        return resultArray;
+        return monthInOrderList;
     }
 
     useEffect(() => {
         axios.get("https://raw.githubusercontent.com/xsolla/test-task-frontend/master/events.json")
             .then((response) => {
-                setEventData(response.data)
-                setFilterEvent(response.data);
-                const citys = response.data.map((event:any) => { return event.city });
-                const months = response.data.map((event:any) => { return event.date });
-                const uniqueCity = citys.filter((val: any,id: any,array: string | any[]) => array.indexOf(val) === id);
-                let m = convertToMonthName(months);
-                uniqueCity.unshift("")
-                m.unshift("")
-                setCityArr(uniqueCity)
-                setMonthArr(m)
+                setEventData(response.data);
             });
     }, []);
+
+    useEffect(() => {
+        if (eventData !== null) {
+            setFilterEvent(eventData);
+            const citys = eventData.map((event: any) => { return event.city });
+            const date = eventData.map((event: any) => { return event.date });
+            const uniqueCityList = citys.filter((val: any, id: any, array: string | any[]) => array.indexOf(val) === id);
+            const uniqueMonthList = getMonthsByDate(date);
+            uniqueCityList.unshift("");
+            uniqueMonthList.unshift("");
+            setCityArr(uniqueCityList);
+            setMonthArr(uniqueMonthList)
+        }
+    }, [eventData])
 
     // Update selectedCity state
     const handleCityChange = ( event : any) => {
