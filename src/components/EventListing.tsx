@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import axios from "axios";
 import { ReactComponent as NotFavourite } from "../not-favourite.svg";
 import { ReactComponent as Favourited } from "../favourite.svg";
 
@@ -43,10 +42,25 @@ function EventListing() {
     }
 
     useEffect(() => {
-        axios.get("https://raw.githubusercontent.com/xsolla/test-task-frontend/master/events.json")
-            .then((response) => {
-                setEventData(response.data);
-            });
+        fetch("https://raw.githubusercontent.com/xsolla/test-task-frontend/master/events.json", {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            },
+        })
+        .then((res) => res.json())
+        .then(
+            (result) => {
+                setEventData(result);
+            },
+
+            // Note: it's important to handle errors here
+            // instead of a catch() block so that we don't swallow
+            // exceptions from actual bugs in components.
+            (error) => {
+                console.log(error)
+            }
+        );
     }, []);
 
     useEffect(() => {
